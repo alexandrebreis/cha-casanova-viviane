@@ -237,8 +237,26 @@
     </div>
   </footer>
 
-  <!-- JS LOGIC -->
+  <!-- SDKs do Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+  <!-- Lógica da Aplicação Integrada ao Firebase -->
   <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDCp9ypn6YuixXw6BUb0d7xOrpySkZCJG0",
+      authDomain: "cha-de-casa-nova-65dc6.firebaseapp.com",
+      databaseURL: "https://cha-de-casa-nova-65dc6-default-rtdb.firebaseio.com",
+      projectId: "cha-de-casa-nova-65dc6",
+      storageBucket: "cha-de-casa-nova-65dc6.firebasestorage.app",
+      messagingSenderId: "76898794624",
+      appId: "1:76898794624:web:aef093c8390e348c89fa65",
+      measurementId: "G-8ZV1SGMLLC"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
     const EVENT_CONFIG = {
       whatsappNumber: "5571994158493"
     };
@@ -277,28 +295,23 @@
     let searchQuery = '';
 
     document.addEventListener('DOMContentLoaded', () => {
-      loadGifts();
+      listenToGiftsRealtime();
       renderTabs();
-      renderGifts();
       setupEventListeners();
-      lucide.createIcons();
     });
 
-    function loadGifts() {
-      const saved = localStorage.getItem('cha_casa_nova_v3');
-      if (saved) {
-        try {
-          gifts = JSON.parse(saved);
-        } catch(e) {
+    function listenToGiftsRealtime() {
+      const giftsRef = db.ref('gifts');
+      giftsRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (!data) {
+          db.ref('gifts').set(DEFAULT_GIFTS);
           gifts = DEFAULT_GIFTS;
+        } else {
+          gifts = Array.isArray(data) ? data : Object.values(data);
         }
-      } else {
-        gifts = DEFAULT_GIFTS;
-      }
-    }
-
-    function saveGifts() {
-      localStorage.setItem('cha_casa_nova_v3', JSON.stringify(gifts));
+        renderGifts();
+      });
     }
 
     function renderTabs() {
@@ -505,8 +518,8 @@
           gift.reservedBy = guestName;
         }
 
-        saveGifts();
-        renderGifts();
+        // Atualiza a lista direto no Firebase Realtime Database
+        db.ref('gifts').set(gifts);
 
         const textMsg = `Olá! Escolhi um presente para o seu Chá de Casa Nova:\n\n🎁 *Presente:* ${gift.name}\n👤 *Convidado:* ${guestName}\n📱 *Telefone:* ${guestPhone || 'Não informado'}\n💬 *Mensagem:* ${guestMessage || 'Parabéns pela casa nova!'}`;
         const waUrl = `https://wa.me/${EVENT_CONFIG.whatsappNumber}?text=${encodeURIComponent(textMsg)}`;
