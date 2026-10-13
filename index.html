@@ -1,404 +1,520 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pré-Cadastro - Impacto Calçados</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chá de Casa Nova - Lista de Presentes</title>
+  
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          },
+          colors: {
+            brand: {
+              50: '#fbf8f3',
+              100: '#f5efe4',
+              200: '#e8dc2a',
+              300: '#d7c09e',
+              400: '#c5a176',
+              500: '#b68856',
+              600: '#a7734a',
+              700: '#8b5a3e',
+              800: '#714b37',
+              900: '#5c3e2e',
+            }
+          }
         }
-        body {
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        .container {
-            max-width: 800px;
-            margin: 30px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #e74c3c;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .row {
-            display: flex;
-            gap: 20px;
-        }
-        .col {
-            flex: 1;
-        }
-        button {
-            width: 100%;
-            padding: 15px;
-            background-color: #25D366;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #128C7E;
-        }
-        .error {
-            color: #e74c3c;
-            font-size: 14px;
-            margin-top: 5px;
-            display: none;
-        }
-        .whatsapp-option {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-        .whatsapp-option input[type="checkbox"] {
-            width: auto;
-            margin-right: 10px;
-        }
-    </style>
+      }
+    }
+  </script>
+
+  <style>
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #c5a176;
+      border-radius: 10px;
+    }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <div class="logo">IMPACTO CALÇADOS</div>
-        <h1>Pré-Cadastro</h1>
-        
-        <form id="cadastroForm">
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="nome">Nome Completo*</label>
-                        <input type="text" id="nome" required>
-                        <div class="error" id="nome-error">Por favor, insira seu nome completo</div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="dataNascimento">Data de Nascimento*</label>
-                        <input type="date" id="dataNascimento" required>
-                        <div class="error" id="data-error">Data inválida</div>
-                    </div>
-                </div>
-            </div>
+<body class="bg-brand-50 text-stone-800 font-sans antialiased min-h-screen flex flex-col selection:bg-brand-300">
 
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="cpf">CPF*</label>
-                        <input type="text" id="cpf" maxlength="14" placeholder="000.000.000-00" required>
-                        <div class="error" id="cpf-error">CPF inválido</div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="telefone">Telefone*</label>
-                        <input type="tel" id="telefone" maxlength="15" placeholder="(00) 00000-0000" required>
-                        <div class="whatsapp-option">
-                            <input type="checkbox" id="whatsappCheck" checked>
-                            <label for="whatsappCheck">Este também é meu WhatsApp</label>
-                        </div>
-                        <div class="error" id="telefone-error">Telefone inválido</div>
-                    </div>
-                </div>
-            </div>
+  <!-- HEADER / HERO -->
+  <header class="relative overflow-hidden bg-stone-900 text-white py-14 px-4 sm:px-6 lg:px-8 shadow-xl">
+    <div class="absolute inset-0 z-0 opacity-30 bg-[url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/60 to-transparent z-0"></div>
 
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="cep">CEP*</label>
-                        <input type="text" id="cep" maxlength="9" placeholder="00000-000" required>
-                        <div class="error" id="cep-error">CEP inválido</div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="numero">Número*</label>
-                        <input type="text" id="numero" required>
-                        <div class="error" id="numero-error">Campo obrigatório</div>
-                    </div>
-                </div>
-            </div>
+    <div class="relative z-10 max-w-4xl mx-auto text-center space-y-5">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-brand-300 text-xs sm:text-sm font-medium tracking-wide uppercase">
+        <i data-lucide="home" class="w-4 h-4"></i> Sejam bem-vindos ao nosso lar
+      </div>
 
-            <div class="form-group">
-                <label for="endereco">Endereço*</label>
-                <input type="text" id="endereco" required>
-                <div class="error" id="endereco-error">Campo obrigatório</div>
-            </div>
+      <h1 class="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-amber-50">
+        Meu Chá de Casa Nova
+      </h1>
 
-            <div class="form-group">
-                <label for="complemento">Complemento</label>
-                <input type="text" id="complemento">
-            </div>
+      <p class="max-w-2xl mx-auto text-stone-300 text-sm sm:text-base leading-relaxed font-light">
+        Estou de casa nova e muito feliz em compartilhar esse momento especial com você!
+        Escolha um carinho da nossa lista ou sugira algo diferente para o meu lar.
+      </p>
 
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="bairro">Bairro*</label>
-                        <input type="text" id="bairro" required>
-                        <div class="error" id="bairro-error">Campo obrigatório</div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="cidade">Cidade*</label>
-                        <input type="text" id="cidade" required>
-                        <div class="error" id="cidade-error">Campo obrigatório</div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="estado">Estado*</label>
-                        <select id="estado" required>
-                            <option value="">Selecione</option>
-                            <option value="AC">AC</option>
-                            <option value="AL">AL</option>
-                            <option value="AP">AP</option>
-                            <option value="AM">AM</option>
-                            <option value="BA">BA</option>
-                            <option value="CE">CE</option>
-                            <option value="DF">DF</option>
-                            <option value="ES">ES</option>
-                            <option value="GO">GO</option>
-                            <option value="MA">MA</option>
-                            <option value="MT">MT</option>
-                            <option value="MS">MS</option>
-                            <option value="MG">MG</option>
-                            <option value="PA">PA</option>
-                            <option value="PB">PB</option>
-                            <option value="PR">PR</option>
-                            <option value="PE">PE</option>
-                            <option value="PI">PI</option>
-                            <option value="RJ">RJ</option>
-                            <option value="RN">RN</option>
-                            <option value="RS">RS</option>
-                            <option value="RO">RO</option>
-                            <option value="RR">RR</option>
-                            <option value="SC">SC</option>
-                            <option value="SP">SP</option>
-                            <option value="SE">SE</option>
-                            <option value="TO">TO</option>
-                        </select>
-                        <div class="error" id="estado-error">Selecione um estado</div>
-                    </div>
-                </div>
-            </div>
+      <!-- LEMBRETE E LOCALIZAÇÃO DO SÍTIO -->
+      <div class="pt-4 max-w-xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+        <!-- Lembrete de Bebida -->
+        <div class="bg-amber-500/20 backdrop-blur-md border border-amber-400/40 p-3.5 rounded-2xl flex items-center gap-3">
+          <div class="p-2 bg-amber-500/30 rounded-xl text-amber-300">
+            <i data-lucide="wine" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <span class="block text-xs uppercase font-bold text-amber-300">Lembrete Importante</span>
+            <p class="text-xs text-stone-200 font-medium">Quem for beber, leve sua própria bebida! 🍻</p>
+          </div>
+        </div>
 
-            <button type="submit">ENVIAR CADASTRO</button>
-        </form>
+        <!-- Localização -->
+        <a href="https://www.google.com/maps/search/?api=1&query=-12.748638,-38.331956" target="_blank" rel="noopener noreferrer" class="bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition p-3.5 rounded-2xl flex items-center gap-3 group">
+          <div class="p-2 bg-brand-500/30 rounded-xl text-brand-300 group-hover:scale-110 transition-transform">
+            <i data-lucide="map-pin" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <span class="block text-xs uppercase font-bold text-brand-300">Localização do Sítio</span>
+            <p class="text-xs text-stone-200 underline">Clique aqui para ver no Mapa 📍</p>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+
+    <!-- CONTROLS / SEARCH & FILTER -->
+    <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-stone-200/80">
+      
+      <!-- Category Tabs -->
+      <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 custom-scrollbar" id="category-tabs">
+        <!-- JS rendered -->
+      </div>
+
+      <!-- Search Box -->
+      <div class="relative w-full md:w-72">
+        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"></i>
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Buscar item da lista..." 
+          class="w-full pl-10 pr-4 py-2 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-brand-500/40 text-sm bg-stone-50/50"
+        >
+      </div>
     </div>
 
-    <script>
-        // Máscaras para os campos
-        document.getElementById('cpf').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 3) value = value.replace(/^(\d{3})(\d)/g, '$1.$2');
-            if (value.length > 6) value = value.replace(/^(\d{3})\.(\d{3})(\d)/g, '$1.$2.$3');
-            if (value.length > 9) value = value.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/g, '$1.$2.$3-$4');
-            e.target.value = value.substring(0, 14);
-        });
+    <!-- STATS BAR -->
+    <div class="flex items-center justify-between text-xs sm:text-sm text-stone-500 px-2">
+      <span id="items-count-text">Carregando lista...</span>
+      <span class="flex items-center gap-1.5">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Disponível
+        <span class="w-2.5 h-2.5 rounded-full bg-stone-300 inline-block ml-2"></span> Reservado
+      </span>
+    </div>
 
-        document.getElementById('telefone').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 2) value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
-            if (value.length > 10) value = value.replace(/^(\d{2})\s(\d{5})(\d)/g, '$1 $2-$3');
-            e.target.value = value.substring(0, 15);
-        });
+    <!-- GIFT ITEMS GRID -->
+    <div id="gifts-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Cards rendered via JS -->
+    </div>
 
-        document.getElementById('cep').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 5) value = value.replace(/^(\d{5})(\d)/g, '$1-$2');
-            e.target.value = value.substring(0, 9);
-        });
+  </main>
 
-        // Buscar CEP via API
-        document.getElementById('cep').addEventListener('blur', function() {
-            const cep = this.value.replace(/\D/g, '');
-            if (cep.length === 8) {
-                fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (!data.erro) {
-                            document.getElementById('endereco').value = data.logradouro;
-                            document.getElementById('bairro').value = data.bairro;
-                            document.getElementById('cidade').value = data.localidade;
-                            document.getElementById('estado').value = data.uf;
-                        }
-                    });
-            }
-        });
+  <!-- MODAL DE CONFIRMAÇÃO DE PRESENTE -->
+  <div id="gift-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden transform scale-95 transition-transform duration-300" id="modal-content">
+      
+      <!-- Modal Header -->
+      <div class="bg-brand-50 p-6 border-b border-brand-100 flex justify-between items-start">
+        <div class="space-y-1">
+          <span class="text-xs font-semibold uppercase tracking-wider text-brand-600" id="modal-badge">Confirmar Presente</span>
+          <h3 class="font-serif text-2xl font-bold text-stone-900" id="modal-item-title">Nome do Presente</h3>
+        </div>
+        <button id="close-modal-btn" type="button" class="text-stone-400 hover:text-stone-600 p-1 rounded-full hover:bg-stone-200/50 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
 
-        // Validar CPF
-        function validarCPF(cpf) {
-            cpf = cpf.replace(/\D/g, '');
-            if (cpf.length !== 11) return false;
-            
-            // Verifica dígitos repetidos
-            if (/^(\d)\1{10}$/.test(cpf)) return false;
-            
-            // Valida 1º dígito verificador
-            let soma = 0;
-            for (let i = 0; i < 9; i++) {
-                soma += parseInt(cpf.charAt(i)) * (10 - i);
-            }
-            let resto = 11 - (soma % 11);
-            if (resto === 10 || resto === 11) resto = 0;
-            if (resto !== parseInt(cpf.charAt(9))) return false;
-            
-            // Valida 2º dígito verificador
-            soma = 0;
-            for (let i = 0; i < 10; i++) {
-                soma += parseInt(cpf.charAt(i)) * (11 - i);
-            }
-            resto = 11 - (soma % 11);
-            if (resto === 10 || resto === 11) resto = 0;
-            if (resto !== parseInt(cpf.charAt(10))) return false;
-            
-            return true;
+      <!-- Form -->
+      <form id="reservation-form" class="p-6 space-y-4">
+        <input type="hidden" id="modal-item-id">
+
+        <!-- Campo Adicional para Presente Personalizado -->
+        <div id="custom-gift-fields" class="hidden space-y-3 p-4 rounded-2xl bg-amber-50/70 border border-amber-200">
+          <div>
+            <label class="block text-xs font-semibold text-amber-900 uppercase mb-1">Qual presente você gostaria de dar? *</label>
+            <input 
+              type="text" 
+              id="custom-item-name" 
+              placeholder="Ex: Air Fryer, Pipoqueira, Jogo de Toalhas..." 
+              class="w-full px-3.5 py-2.5 rounded-xl border border-amber-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white text-sm"
+            >
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-amber-800 mb-1">Detalhes / Descrição (Opcional)</label>
+            <input 
+              type="text" 
+              id="custom-item-desc" 
+              placeholder="Ex: Cor preta, 110v, marca X..." 
+              class="w-full px-3.5 py-2 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white text-xs"
+            >
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 uppercase mb-1">Seu Nome Completo *</label>
+          <input 
+            type="text" 
+            id="guest-name" 
+            required
+            placeholder="Como podemos te identificar?" 
+            class="w-full px-4 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm bg-stone-50"
+          >
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 uppercase mb-1">Seu Telefone / WhatsApp (Opcional)</label>
+          <input 
+            type="tel" 
+            id="guest-phone" 
+            placeholder="(71) 99999-9999" 
+            class="w-full px-4 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm bg-stone-50"
+          >
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 uppercase mb-1">Recadinho para os donos da casa (Opcional)</label>
+          <textarea 
+            id="guest-message" 
+            rows="2" 
+            placeholder="Deixe uma mensagem carinhosa..." 
+            class="w-full px-4 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm bg-stone-50"
+          ></textarea>
+        </div>
+
+        <div class="pt-2">
+          <button 
+            type="submit" 
+            id="submit-btn" 
+            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20"
+          >
+            <i data-lucide="message-square" class="w-4 h-4"></i> Confirmar e Enviar via WhatsApp
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-stone-900 text-stone-400 py-8 border-t border-stone-800 mt-auto text-center text-xs">
+    <div class="max-w-4xl mx-auto px-4 space-y-2">
+      <p class="font-serif text-base text-stone-200">Agradecemos imensamente por fazer parte da nossa história!</p>
+      <p class="text-stone-500">Chá de Casa Nova &copy; 2026</p>
+    </div>
+  </footer>
+
+  <!-- JS LOGIC -->
+  <script>
+    const EVENT_CONFIG = {
+      whatsappNumber: "5571994158493"
+    };
+
+    const DEFAULT_GIFTS = [
+      { id: 'custom-gift-trigger', name: 'Sugerir / Dar outro presente', category: 'outro', icon: 'gift', desc: 'Quer dar algo diferente que não está na lista abaixo? Clique aqui!', isCustomOption: true },
+      { id: '1', name: 'Conjunto de Pratos', category: 'cozinha', icon: 'utensils', desc: 'Jogo de pratos para o dia a dia' },
+      { id: '2', name: 'Jogo de Copos', category: 'cozinha', icon: 'glass-water', desc: 'Conjunto de copos de vidro' },
+      { id: '3', name: 'Conjunto de Faqueiro', category: 'cozinha', icon: 'utensils-crossed', desc: 'Jogo de talheres completo' },
+      { id: '4', name: 'Conjunto de Xícaras', category: 'cozinha', icon: 'coffee', desc: 'Jogo de xícaras de café/chá com pires' },
+      { id: '5', name: 'Garrafa de Café', category: 'cozinha', icon: 'thermometer-snowflake', desc: 'Garrafa térmica para café' },
+      { id: '6', name: 'Potes de Plástico com Tampa', category: 'cozinha', icon: 'box', desc: 'Kit de mantimentos / organização' },
+      { id: '7', name: 'Conjunto de Panelas', category: 'cozinha', icon: 'cooking-pot', desc: 'Jogo de panelas antiaderente' },
+      { id: '8', name: 'Liquidificador', category: 'cozinha', icon: 'zap', desc: 'Eletrodoméstico para sucos e receitas' },
+      { id: '9', name: 'Pano de Prato (Kit)', category: 'cozinha', icon: 'sparkles', desc: 'Kit de panos de prato para cozinha' },
+      { id: '10', name: 'Escorredor de Pratos', category: 'cozinha', icon: 'grid', desc: 'Escorredor de louças para pia' },
+      { id: '14', name: 'Peneira / Escorredor de Arroz e Macarrão', category: 'cozinha', icon: 'filter', desc: 'Utensílio para escorrer alimentos' },
+      { id: '23', name: 'Kit Concha p/ Cozinhar', category: 'cozinha', icon: 'chef-hat', desc: 'Kit de concha, escumadeira e colheres de silicone/inox' },
+      { id: '24', name: 'Lixeira', category: 'cozinha', icon: 'trash-2', desc: 'Lixeira com pedal/tampa para cozinha ou banheiro' },
+      { id: '101', name: 'Sapateira com Zíper', category: 'quarto', icon: 'archive', desc: 'Sapateira organizadora dobrável/com zíper' },
+      { id: '11', name: 'Toalha de Banho', category: 'banheiro', icon: 'bath', desc: 'Kit ou jogo de toalhas de banho' },
+      { id: '12', name: 'Conjunto de Cama Casal', category: 'quarto', icon: 'bed', desc: 'Jogo de lençol casal' },
+      { id: '19', name: 'Kit de Travesseiro', category: 'quarto', icon: 'moon', desc: 'Par de travesseiros confortáveis' },
+      { id: '21', name: 'Kit de Banheiro', category: 'banheiro', icon: 'droplet', desc: 'Porta-sabonete, porta-escova de dentes e acessórios' },
+      { id: '22', name: 'Jogo de Tapete', category: 'quarto', icon: 'layers', desc: 'Jogo de tapetes para banheiro/quarto/cozinha' },
+      { id: '13', name: 'Ferro de Passar', category: 'eletro', icon: 'flame', desc: 'Ferro de passar roupas a seco ou a vapor' },
+      { id: '15', name: 'Baldes', category: 'eletro', icon: 'bucket', desc: 'Baldes para lavanderia e limpeza' },
+      { id: '16', name: 'Bacia', category: 'eletro', icon: 'disc', desc: 'Bacia plástica para lavanderia' },
+      { id: '17', name: 'Ventilador', category: 'eletro', icon: 'wind', desc: 'Ventilador de mesa ou coluna' },
+      { id: '18', name: 'Cortina para Sala', category: 'eletro', icon: 'columns', desc: 'Cortina decorativa para sala de estar' },
+      { id: '20', name: 'Espelho', category: 'eletro', icon: 'square', desc: 'Espelho decorativo para parede ou banheiro' }
+    ];
+
+    let gifts = [];
+    let currentCategory = 'todos';
+    let searchQuery = '';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadGifts();
+      renderTabs();
+      renderGifts();
+      setupEventListeners();
+      lucide.createIcons();
+    });
+
+    function loadGifts() {
+      const saved = localStorage.getItem('cha_casa_nova_v3');
+      if (saved) {
+        try {
+          gifts = JSON.parse(saved);
+        } catch(e) {
+          gifts = DEFAULT_GIFTS;
+        }
+      } else {
+        gifts = DEFAULT_GIFTS;
+      }
+    }
+
+    function saveGifts() {
+      localStorage.setItem('cha_casa_nova_v3', JSON.stringify(gifts));
+    }
+
+    function renderTabs() {
+      const categories = [
+        { id: 'todos', label: 'Todos os Itens' },
+        { id: 'outro', label: '✨ Fora da Lista' },
+        { id: 'cozinha', label: 'Cozinha' },
+        { id: 'quarto', label: 'Quarto' },
+        { id: 'banheiro', label: 'Banheiro' },
+        { id: 'eletro', label: 'Eletro & Utilidades' }
+      ];
+
+      const tabsContainer = document.getElementById('category-tabs');
+      tabsContainer.innerHTML = categories.map(cat => `
+        <button 
+          type="button"
+          onclick="filterCategory('${cat.id}')"
+          class="px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
+            currentCategory === cat.id 
+              ? 'bg-brand-600 text-white shadow-md' 
+              : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+          }"
+        >
+          ${cat.label}
+        </button>
+      `).join('');
+    }
+
+    function filterCategory(catId) {
+      currentCategory = catId;
+      renderTabs();
+      renderGifts();
+    }
+
+    function renderGifts() {
+      const grid = document.getElementById('gifts-grid');
+      
+      const filtered = gifts.filter(gift => {
+        const matchesCategory = currentCategory === 'todos' || gift.category === currentCategory;
+        const matchesSearch = gift.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                              (gift.desc && gift.desc.toLowerCase().includes(searchQuery.toLowerCase()));
+        return matchesCategory && matchesSearch;
+      });
+
+      document.getElementById('items-count-text').innerText = `${filtered.length} item(ns) na lista`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-12 bg-white rounded-2xl border border-dashed border-stone-200">
+            <i data-lucide="package-open" class="w-12 h-12 text-stone-300 mx-auto mb-2"></i>
+            <p class="text-stone-500 font-medium">Nenhum presente encontrado.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      grid.innerHTML = filtered.map(gift => {
+        const isReserved = !!gift.reservedBy;
+        const isCustomTrigger = gift.isCustomOption;
+
+        if (isCustomTrigger) {
+          return `
+            <div class="col-span-1 sm:col-span-2 lg:col-span-3 bg-gradient-to-r from-amber-500 to-brand-600 text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="space-y-1 text-center sm:text-left z-10">
+                <span class="inline-block px-2.5 py-0.5 rounded-full bg-white/20 text-xs font-semibold uppercase tracking-wider text-amber-100">
+                  Idéia / Sugestão Livre
+                </span>
+                <h3 class="font-serif text-xl sm:text-2xl font-bold">${gift.name}</h3>
+                <p class="text-xs sm:text-sm text-amber-100/90">${gift.desc}</p>
+              </div>
+              <button 
+                type="button"
+                onclick="openModal('${gift.id}')"
+                class="z-10 bg-white text-brand-800 hover:bg-amber-50 font-bold px-5 py-3 rounded-xl text-sm transition shadow-lg shrink-0 flex items-center gap-2"
+              >
+                <i data-lucide="plus-circle" class="w-4 h-4"></i> Informar outro presente
+              </button>
+            </div>
+          `;
         }
 
-        // Enviar para WhatsApp
-        document.getElementById('cadastroForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Validar campos
-            let isValid = true;
-            const nome = document.getElementById('nome').value.trim();
-            const cpf = document.getElementById('cpf').value;
-            const telefone = document.getElementById('telefone').value;
-            const cep = document.getElementById('cep').value;
-            const endereco = document.getElementById('endereco').value.trim();
-            const numero = document.getElementById('numero').value.trim();
-            const bairro = document.getElementById('bairro').value.trim();
-            const cidade = document.getElementById('cidade').value.trim();
-            const estado = document.getElementById('estado').value;
-            const dataNascimento = document.getElementById('dataNascimento').value;
-            
-            // Validações
-            if (nome === '') {
-                document.getElementById('nome-error').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('nome-error').style.display = 'none';
-            }
-            
-            if (!validarCPF(cpf)) {
-                document.getElementById('cpf-error').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('cpf-error').style.display = 'none';
-            }
-            
-            if (telefone.replace(/\D/g, '').length < 11) {
-                document.getElementById('telefone-error').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('telefone-error').style.display = 'none';
-            }
-            
-            if (cep.replace(/\D/g, '').length !== 8) {
-                document.getElementById('cep-error').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('cep-error').style.display = 'none';
-            }
-            
-            if (endereco === '') {
-                document.getElementById('endereco-error').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('endereco-error').style.display = 'none';
-            }
-            
-            if (numero === '') {
-                document.getElementById('numero-error').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('numero-error').style.display = 'none';
-            }
-            
-            if (bairro === '') {
-                document.getElementById('bairro-error').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('bairro-error').style.display = 'none';
-            }
-            
-            if (cidade === '') {
-                document.getElementById('cidade-error').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('cidade-error').style.display = 'none';
-            }
-            
-            if (estado === '') {
-                document.getElementById('estado-error').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('estado-error').style.display = 'none';
-            }
-            
-            if (dataNascimento === '') {
-                document.getElementById('data-error').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('data-error').style.display = 'none';
-            }
-            
-            if (!isValid) return;
-            
-            // Formatar mensagem para WhatsApp
-            const isWhatsapp = document.getElementById('whatsappCheck').checked;
-            const complemento = document.getElementById('complemento').value.trim();
-            
-            let message = "📋 *PRÉ-CADASTRO - IMPACTO CALÇADOS* 📋\n\n";
-            message += `👤 *Nome:* ${nome}\n`;
-            message += `📅 *Data Nasc.:* ${dataNascimento}\n`;
-            message += `🔒 *CPF:* ${cpf}\n`;
-            message += `📞 *Telefone:* ${telefone} ${isWhatsapp ? '(WhatsApp)' : ''}\n\n`;
-            message += "🏠 *ENDEREÇO*\n";
-            message += `📍 ${endereco}, ${numero}`;
-            if (complemento) message += ` (${complemento})`;
-            message += `\n🏘️ ${bairro}\n`;
-            message += `🏙️ ${cidade}/${estado}\n`;
-            message += `📮 CEP: ${cep}\n\n`;
-            message += "📢 *Obrigado pelo cadastro! Em breve entraremos em contato.*";
-            
-            const encodedMessage = encodeURIComponent(message);
-            window.open(`http://wa.me/5571984744865?text=${encodedMessage}`, '_blank');
-        });
-    </script>
+        return `
+          <div class="bg-white rounded-2xl border ${isReserved ? 'border-stone-200 opacity-80' : 'border-stone-200/80 hover:border-brand-300'} p-5 shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between relative overflow-hidden group">
+            ${isReserved ? `
+              <div class="absolute top-3 right-3 bg-stone-100 text-stone-500 border border-stone-200 px-2.5 py-1 rounded-full text-[11px] font-semibold flex items-center gap-1">
+                <i data-lucide="check" class="w-3 h-3 text-stone-400"></i> Reservado por ${gift.reservedBy}
+              </div>
+            ` : `
+              <div class="absolute top-3 right-3 bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-1 rounded-full text-[11px] font-semibold">
+                Disponível
+              </div>
+            `}
+
+            <div class="space-y-3 pt-2">
+              <div class="p-3 w-12 h-12 rounded-xl ${isReserved ? 'bg-stone-100 text-stone-400' : 'bg-brand-50 text-brand-600 group-hover:scale-105'} transition-transform flex items-center justify-center">
+                <i data-lucide="${gift.icon || 'gift'}" class="w-6 h-6"></i>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-stone-800 text-base leading-snug">${gift.name}</h4>
+                <p class="text-xs text-stone-500 mt-1 line-clamp-2">${gift.desc || ''}</p>
+              </div>
+            </div>
+
+            <div class="pt-5 border-t border-stone-100 mt-4 flex items-center justify-between">
+              <span class="text-[10px] font-semibold uppercase text-stone-400 tracking-wider">${gift.category}</span>
+              
+              ${isReserved ? `
+                <button disabled class="bg-stone-100 text-stone-400 cursor-not-allowed font-medium text-xs px-3 py-2 rounded-lg">
+                  Já Escolhido
+                </button>
+              ` : `
+                <button 
+                  type="button"
+                  onclick="openModal('${gift.id}')"
+                  class="bg-brand-600 hover:bg-brand-700 text-white font-medium text-xs px-3.5 py-2 rounded-lg transition shadow-sm flex items-center gap-1.5"
+                >
+                  <i data-lucide="heart" class="w-3.5 h-3.5"></i> Quero Presentear
+                </button>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function openModal(giftId) {
+      const gift = gifts.find(g => g.id === giftId);
+      if (!gift) return;
+
+      document.getElementById('modal-item-id').value = gift.id;
+      document.getElementById('modal-item-title').innerText = gift.name;
+
+      const customFields = document.getElementById('custom-gift-fields');
+      const customNameInput = document.getElementById('custom-item-name');
+
+      if (gift.isCustomOption) {
+        customFields.classList.remove('hidden');
+        customNameInput.setAttribute('required', 'required');
+        document.getElementById('modal-badge').innerText = 'Presente Personalizado';
+      } else {
+        customFields.classList.add('hidden');
+        customNameInput.removeAttribute('required');
+        document.getElementById('modal-badge').innerText = 'Confirmar Escolha';
+      }
+
+      const modal = document.getElementById('gift-modal');
+      const modalContent = document.getElementById('modal-content');
+
+      modal.classList.remove('pointer-events-none');
+      modal.classList.add('opacity-100');
+      modalContent.classList.remove('scale-95');
+      modalContent.classList.add('scale-100');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('gift-modal');
+      const modalContent = document.getElementById('modal-content');
+
+      modal.classList.remove('opacity-100');
+      modal.classList.add('pointer-events-none');
+      modalContent.classList.remove('scale-100');
+      modalContent.classList.add('scale-95');
+
+      document.getElementById('reservation-form').reset();
+    }
+
+    function setupEventListeners() {
+      document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+      document.getElementById('search-input').addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        renderGifts();
+      });
+
+      document.getElementById('reservation-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const giftId = document.getElementById('modal-item-id').value;
+        const guestName = document.getElementById('guest-name').value.trim();
+        const guestPhone = document.getElementById('guest-phone').value.trim();
+        const guestMessage = document.getElementById('guest-message').value.trim();
+
+        let gift = gifts.find(g => g.id === giftId);
+
+        if (gift.isCustomOption) {
+          const customName = document.getElementById('custom-item-name').value.trim();
+          const customDesc = document.getElementById('custom-item-desc').value.trim();
+          
+          const newCustomGift = {
+            id: 'custom-' + Date.now(),
+            name: customName,
+            category: 'outro',
+            icon: 'sparkles',
+            desc: customDesc || 'Item sugerido pelo convidado',
+            reservedBy: guestName
+          };
+
+          gifts.unshift(newCustomGift);
+          gift = newCustomGift;
+        } else {
+          gift.reservedBy = guestName;
+        }
+
+        saveGifts();
+        renderGifts();
+
+        const textMsg = `Olá! Escolhi um presente para o seu Chá de Casa Nova:\n\n🎁 *Presente:* ${gift.name}\n👤 *Convidado:* ${guestName}\n📱 *Telefone:* ${guestPhone || 'Não informado'}\n💬 *Mensagem:* ${guestMessage || 'Parabéns pela casa nova!'}`;
+        const waUrl = `https://wa.me/${EVENT_CONFIG.whatsappNumber}?text=${encodeURIComponent(textMsg)}`;
+
+        closeModal();
+        window.open(waUrl, '_blank');
+      });
+    }
+  </script>
 </body>
 </html>
